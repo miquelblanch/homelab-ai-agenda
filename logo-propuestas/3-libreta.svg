@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+ <rect width="1024" height="1024" rx="224" fill="#160f30"/>
+<defs><clipPath id="t"><path d="M290 170 H740 A60 60 0 0 1 800 230 V794 A60 60 0 0 1 740 854 H290 A60 60 0 0 1 230 794 V230 A60 60 0 0 1 290 170 Z"/></clipPath></defs>
+<path d="M290 170 H740 A60 60 0 0 1 800 230 V794 A60 60 0 0 1 740 854 H290 A60 60 0 0 1 230 794 V230 A60 60 0 0 1 290 170 Z" fill="#f47a8c"/>
+<rect x="512" y="0" width="512" height="1024" fill="#d64a63" clip-path="url(#t)"/>
+<rect x="186" y="290" width="110" height="44" rx="22" fill="#f2c9cf"/><rect x="186" y="470" width="110" height="44" rx="22" fill="#f2c9cf"/><rect x="186" y="650" width="110" height="44" rx="22" fill="#f2c9cf"/>
+<path d="M600 170 H690 V420 L645 384 L600 420 Z" fill="#f7c533"/>
+<g fill="#160f30"><rect x="350" y="520" width="340" height="44" rx="22"/><rect x="350" y="620" width="260" height="44" rx="22"/></g>
+</svg>

@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Agenda</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Agenda">
+<link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/static/apple-touch-icon.png">
+<link rel="stylesheet" href="/static/app.css">
+</head>
+<body>
+<div class="app">
+  <aside class="lado" id="lado" aria-label="Vistas y listas">
+    <div class="marca"><img src="/static/favicon.svg" alt="" width="26" height="26"> Agenda</div>
+    <input id="buscar" type="search" placeholder="Buscar" aria-label="Buscar tareas">
+    <nav id="vistas"></nav>
+    <div class="titulo-sec">Listas <button id="nueva-lista" type="button" class="mini" aria-label="Nueva lista">+</button></div>
+    <nav id="listas"></nav>
+    <div class="titulo-sec">Etiquetas</div>
+    <nav id="etiquetas" class="etqs"></nav>
+  </aside>
+  <main class="centro">
+    <header class="cab">
+      <button id="menu" type="button" class="menu" aria-label="Abrir el menú">☰</button>
+      <div><h1 id="titulo">Hoy</h1><p id="subtitulo" class="sub"></p></div>
+    </header>
+    <form id="rapido" class="rapido" autocomplete="off">
+      <input id="rapido-texto" type="text" placeholder="Añadir: «Llamar al taller mañana 10:00 #coche !!!»" aria-label="Añadir tarea rápida">
+      <button type="submit">Añadir</button>
+    </form>
+    <p id="rapido-ayuda" class="ayuda" hidden></p>
+    <div id="aviso" class="aviso" hidden></div>
+    <section id="contenido" aria-live="polite"><p class="vacio">Cargando…</p></section>
+  </main>
+  <aside class="dia" id="dia" aria-label="Agenda del día"></aside>
+</div>
+
+<dialog id="editor" aria-label="Editar tarea">
+  <form method="dialog" id="ed-form">
+    <div class="ed-cab">
+      <input id="ed-titulo" class="ed-titulo" type="text" placeholder="Título" required aria-label="Título">
+      <button type="button" class="mini" id="ed-cerrar" aria-label="Cerrar">✕</button>
+    </div>
+    <textarea id="ed-notas" rows="3" placeholder="Notas" aria-label="Notas"></textarea>
+    <div class="ed-rejilla">
+      <label>Lista<select id="ed-lista"></select></label>
+      <label>Prioridad<select id="ed-prioridad"><option value="">Ninguna</option><option value="baja">Baja</option><option value="media">Media</option><option value="alta">Alta</option></select></label>
+      <label>Fecha<input id="ed-fecha" type="date"></label>
+      <label>Hora<input id="ed-hora" type="time"></label>
+      <label>Aviso<select id="ed-aviso">
+        <option value="">Sin aviso</option><option value="0">A la hora</option><option value="5">5 min antes</option>
+        <option value="15">15 min antes</option><option value="30">30 min antes</option><option value="60">1 h antes</option>
+        <option value="120">2 h antes</option><option value="1440">1 día antes</option></select></label>
+      <label>Etiquetas<input id="ed-etiquetas" type="text" placeholder="coche, papeles"></label>
+    </div>
+    <fieldset class="ed-rep">
+      <legend>Repetición</legend>
+      <div class="fila">
+        <select id="ed-rep" aria-label="Repetición"><option value="">No se repite</option><option value="DAILY">Cada día</option><option value="WEEKLY">Cada semana</option><option value="MONTHLY">Cada mes</option><option value="YEARLY">Cada año</option></select>
+        <label class="inline">cada <input id="ed-intervalo" type="number" min="1" max="99" value="1" aria-label="Intervalo"></label>
+      </div>
+      <div id="ed-dias" class="dias" hidden></div>
+    </fieldset>
+    <div class="ed-sub">
+      <div class="titulo-sec">Subtareas</div>
+      <ul id="ed-subtareas" class="subs"></ul>
+      <div class="fila"><input id="ed-nueva-sub" type="text" placeholder="Añadir subtarea" aria-label="Añadir subtarea"><button type="button" id="ed-add-sub">Añadir</button></div>
+    </div>
+    <div class="ed-pie">
+      <button type="button" id="ed-borrar" class="peligro">Borrar</button>
+      <span class="sub" id="ed-info"></span>
+      <button type="submit" id="ed-guardar" class="primario">Guardar</button>
+    </div>
+  </form>
+</dialog>
+<dialog id="editor-ev" aria-label="Editar evento">
+  <form method="dialog" id="ev-form">
+    <div class="ed-cab">
+      <input id="ev-titulo" class="ed-titulo" type="text" placeholder="Evento" required aria-label="Título del evento">
+      <button type="button" class="mini" id="ev-cerrar" aria-label="Cerrar">✕</button>
+    </div>
+    <p id="ev-nota" class="ayuda" hidden></p>
+    <div class="ed-rejilla">
+      <label>Calendario<select id="ev-cal"></select></label>
+      <label class="inline ev-todo"><input id="ev-todo" type="checkbox"> Todo el día</label>
+      <label>Empieza<input id="ev-fecha" type="date" required></label>
+      <label class="ev-hora">Hora<input id="ev-hora" type="time"></label>
+      <label>Termina<input id="ev-fecha-fin" type="date"></label>
+      <label class="ev-hora">Hora<input id="ev-hora-fin" type="time"></label>
+      <label>Aviso<select id="ev-aviso"></select></label>
+      <label>Lugar<input id="ev-lugar" type="text" placeholder="Dónde"></label>
+    </div>
+    <textarea id="ev-notas" rows="3" placeholder="Notas" aria-label="Notas del evento"></textarea>
+    <div class="ed-pie">
+      <button type="button" id="ev-borrar" class="peligro">Borrar</button>
+      <span id="ev-a-tarea-caja" class="fila ev-a-tarea"><select id="ev-a-tarea-lista" aria-label="Lista de la tarea"></select><button type="button" id="ev-a-tarea">Pasar a tarea</button></span>
+      <span class="sub" id="ev-info"></span>
+      <button type="submit" id="ev-guardar" class="primario">Guardar</button>
+    </div>
+  </form>
+</dialog>
+<script src="/static/app.js"></script>
+</body>
+</html>

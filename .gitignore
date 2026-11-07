@@ -1,0 +1,7 @@
+data/
+__pycache__/
+*.pyc
+*.pre-*
+.env
+*.env
+docker-compose.override.yml

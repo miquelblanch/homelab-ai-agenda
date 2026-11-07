@@ -1,0 +1,21 @@
+# Agenda: tareas y calendario a medida sobre Nextcloud (CalDAV). Configuración en .env (ver .env.ejemplo).
+# Para ajustes propios de una instalación (otro login, volúmenes extra…), usa docker-compose.override.yml:
+# Compose lo carga solo y no se versiona.
+services:
+  agenda-portal:
+    build: .
+    container_name: agenda-portal
+    restart: unless-stopped
+    ports:
+      - "8878:8878"
+    volumes:
+      - ./data:/data
+    env_file:
+      - path: .env
+        required: false
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8878/api/health')"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
